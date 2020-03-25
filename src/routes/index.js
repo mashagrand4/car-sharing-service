@@ -1,17 +1,8 @@
 import express from 'express';
-import models from '../models'
+import carRouter from './car';
 
 const router = express.Router();
 
-router.post('/addCreditCard', (req, res) => {
-    models.CreditCard.sync({ force: true }).then(() => {
-        return models.CreditCard.create({
-            card_number: '12345',
-            card_holder: 'test testov',
-            card_valid_date: new Date(),
-        });
-    });
-
-});
+router.use('/car', carRouter);
 
 export default router;
