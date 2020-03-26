@@ -3,9 +3,13 @@ export default (sequelize, DataTypes) => {
         card_number: DataTypes.STRING,
         card_holder: DataTypes.STRING,
         card_valid_date: DataTypes.DATE,
+    },
+    {
+        freezeTableName: true,
+        timestamps: false,
     });
 
-    CreditCard.sync({ force: true });
+    CreditCard.sync();
 
     return CreditCard;
 };
