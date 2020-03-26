@@ -6,10 +6,10 @@ export default class CarService {
         const { IN_USE, RESERVED } = CAR_STATUS;
         const fuelLevel = '25';
 
-        const carsByStatusAndFuel = await car.getCarsByStatusAndFuel(IN_USE, fuelLevel);
+        //const carsByStatusAndFuel = await car.getCarsByStatusAndFuel(IN_USE, fuelLevel);
         const cars = await car.getCarsByStatusAndNotAuthorize(RESERVED);
 
-        return carsByStatusAndFuel.map((car) => {
+        return cars.map((car) => {
             return car;
         });
     }

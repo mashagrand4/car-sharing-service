@@ -14,23 +14,20 @@ const {Car, Driver, CreditCard, Run, BookingHistory} = {
     BookingHistory: bookingHistory(connection, DataTypes),
 };
 
-Car.belongsTo(Run);
-Run.hasMany(Car);
-
-Run.belongsTo(Driver);
-Driver.hasOne(Run);
-
-Driver.belongsTo(CreditCard);
-CreditCard.hasMany(Driver);
-
-// BookingHistory.hasOne(Car);
-// BookingHistory.hasOne(Run);
-// Car.belongsTo(BookingHistory, {
-//     foreignKey: 'car_id',
-// });
-// Run.belongsTo(BookingHistory, {
-//     foreignKey: 'run_id',
-// });
-
+Car.belongsTo(Run, {
+    foreignKey: 'current_run_id',
+});
+Run.belongsTo(Driver, {
+    foreignKey: 'driver_id',
+});
+Driver.belongsTo(CreditCard, {
+    foreignKey: 'credit_card_id',
+});
+BookingHistory.belongsTo(Car, {
+    foreignKey: 'car_id',
+});
+BookingHistory.belongsTo(Run, {
+    foreignKey: 'run_id',
+});
 
 export default { Car, Driver, CreditCard, Run, BookingHistory }
