@@ -8,4 +8,12 @@ export default class CarController {
             next(error);
         }
     };
+
+    static async getReservedCarsAndNotAuthorized(req, res, next) {
+        try {
+            res.send(await CarService.getReservedCarsAndNotAuthorized());
+        } catch (error) {
+            next(error);
+        }
+    };
 }
