@@ -28,4 +28,7 @@ export default {
             return {vin, geoLatitude, geoLongitude, firstName, lastName, licenseNumber};
         });
     },
+
+    addNewCar: carData => car.createNewCar(carData),
+    deleteCarByVin: vin => car.deleteCarByVin(vin),
 }

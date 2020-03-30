@@ -16,4 +16,29 @@ export default class CarController {
             next(error);
         }
     };
+
+    static async addNewCar(req, res, next) {
+        const car = req.body;
+        try {
+            res.send(await CarService.addNewCar(car));
+        } catch (error) {
+            next(error);
+        }
+    };
+
+    static async updateCar(req, res, next) {
+        try {
+            res.send(await CarService.addNewCar());
+        } catch (error) {
+            next(error);
+        }
+    };
+
+    static async deleteCarByVin(req, res, next) {
+        try {
+            res.send(await CarService.deleteCarByVin(req.body.vin));
+        } catch (error) {
+            next(error);
+        }
+    };
 }

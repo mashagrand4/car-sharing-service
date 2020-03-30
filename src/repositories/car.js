@@ -15,7 +15,7 @@ export default {
     getCarsByStatusAndNotAuthorize: status => {
         return models.Car.findAll({
             where: {
-                status: status,
+                status,
             },
             attributes: ['vin', 'geoLatitude', 'geoLongitude'],
             include: [
@@ -33,5 +33,22 @@ export default {
                 }
             ],
         });
+    },
+
+    createNewCar: car => {
+        try {
+            return models.Car.create(car);
+        }
+        catch(err) {
+            throw err;
+        }
+    },
+
+    deleteCarByVin: vin => {
+        models.Car.destroy({
+            where: {
+                vin
+            }
+        })
     }
 };
