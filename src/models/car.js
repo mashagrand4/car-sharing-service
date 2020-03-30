@@ -3,22 +3,38 @@ import {CAR_STATUS} from '../constants';
 export default (sequelize, DataTypes) => {
     const Car =  sequelize.define('car', {
         vin: DataTypes.STRING,
-        registration_number: DataTypes.STRING,
+        registrationNumber: {
+            type: DataTypes.STRING,
+            field: 'registration_number',
+        },
         brand: DataTypes.STRING,
         model: DataTypes.STRING,
-        production_date: DataTypes.DATE,
+        productionDate: {
+            type: DataTypes.DATE,
+            field: 'production_date',
+        },
         status: {
             type: DataTypes.ENUM,
             values: Object.values(CAR_STATUS),
         },
-        fuel_level: DataTypes.STRING,
-        mileage: DataTypes.INTEGER,
-        current_run_id: {
-            type: DataTypes.INTEGER,
-            allowNull: true
+        fuelLevel: {
+            type: DataTypes.STRING,
+            field: 'fuel_level'
         },
-        geo_latitude: DataTypes.STRING,
-        geo_longitude: DataTypes.STRING,
+        mileage: DataTypes.INTEGER,
+        currentRunId: {
+            type: DataTypes.INTEGER,
+            allowNull: true,
+            field: 'current_run_id'
+        },
+        geoLatitude: {
+            type: DataTypes.STRING,
+            field: 'geo_latitude',
+        },
+        geoLongitude: {
+            type: DataTypes.STRING,
+            field: 'geo_longitude'
+        },
     },
     {
         freezeTableName: true,

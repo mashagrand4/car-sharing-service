@@ -1,14 +1,22 @@
 export default (sequelize, DataTypes) => {
     let BookingHistory = sequelize.define('booking_history', {
-        finish_fuel_level: DataTypes.STRING,
-        finish_mileage: DataTypes.INTEGER,
-        car_id: {
-            type: DataTypes.INTEGER,
-            allowNull: true
+        finishFuelLevel: {
+            type: DataTypes.STRING,
+            field: 'finish_fuel_level',
         },
-        run_id: {
+        finishMileage: {
             type: DataTypes.INTEGER,
-            allowNull: true
+            field: 'finish_mileage',
+        },
+        carId: {
+            type: DataTypes.INTEGER,
+            allowNull: true,
+            field: 'car_id'
+        },
+        runId: {
+            type: DataTypes.INTEGER,
+            allowNull: true,
+            field: 'run_id'
         },
     },
     {

@@ -18,14 +18,14 @@ export default {
         const carsByStatusAndAuthorize = await car.getCarsByStatusAndNotAuthorize(RESERVED);
 
         return carsByStatusAndAuthorize.map((car) => {
-            return {
-                vin: car.vin,
-                geo_latitude: car.geo_latitude,
-                geo_longitude: car.geo_longitude,
-                first_name: car.run.driver.first_name,
-                last_name: car.run.driver.last_name,
-                license_number: car.run.driver.license_number,
-            };
+            const {
+                vin,
+                geoLatitude,
+                geoLongitude,
+                run: {driver: {firstName, lastName, licenseNumber}},
+            } = car;
+
+            return {vin, geoLatitude, geoLongitude, firstName, lastName, licenseNumber};
         });
     },
 }

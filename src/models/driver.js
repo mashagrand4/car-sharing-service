@@ -1,11 +1,21 @@
 export default (sequelize, DataTypes) => {
     let Driver = sequelize.define('driver', {
-            license_number: DataTypes.STRING,
-            first_name: DataTypes.STRING,
-            last_name: DataTypes.STRING,
-            credit_card_id: {
+            licenseNumber: {
+                type: DataTypes.STRING,
+                field: 'license_number',
+            },
+            firstName:{
+                type: DataTypes.STRING,
+                field: 'first_name',
+            },
+            lastName: {
+                type: DataTypes.STRING,
+                field: 'last_name'
+            },
+            creditCardId: {
                 type: DataTypes.INTEGER,
-                allowNull: true
+                allowNull: true,
+                field: 'credit_card_id'
             },
         },
         {

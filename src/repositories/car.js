@@ -6,7 +6,7 @@ export default {
         return models.Car.findAll({
             where: {
                 status: status,
-                fuel_level: {
+                fuelLevel: {
                     [Op.lt]: fuelLevel,
                 }
             }
@@ -17,7 +17,7 @@ export default {
             where: {
                 status: status,
             },
-            attributes: ['vin', 'geo_latitude', 'geo_longitude'],
+            attributes: ['vin', 'geoLatitude', 'geoLongitude'],
             include: [
                 {
                     model: models.Run,
@@ -25,9 +25,9 @@ export default {
                         {
                             model: models.Driver,
                             where: {
-                                credit_card_id: null,
+                                creditCardId: null,
                             },
-                            attributes: ['first_name', 'last_name', 'license_number'],
+                            attributes: ['firstName', 'lastName', 'licenseNumber'],
                         }
                     ]
                 }

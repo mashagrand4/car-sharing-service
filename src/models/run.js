@@ -1,11 +1,21 @@
 export default (sequelize, DataTypes) => {
     let Run = sequelize.define('run', {
-        start_date: DataTypes.STRING,
-        start_fuel_level: DataTypes.STRING,
-        start_mileage: DataTypes.INTEGER,
-        driver_id: {
+        startDate: {
+            type: DataTypes.STRING,
+            field: 'start_date'
+        },
+        startFuelLevel: {
+            type: DataTypes.STRING,
+            field: 'start_fuel_level',
+        },
+        startMileage: {
             type: DataTypes.INTEGER,
-            allowNull: true
+            field: 'start_mileage',
+        },
+        driverId: {
+            type: DataTypes.INTEGER,
+            allowNull: true,
+            field: 'driver_id'
         },
 },
     {
