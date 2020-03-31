@@ -34,7 +34,6 @@ export default {
             ],
         });
     },
-
     createNewCar: car => {
         try {
             return models.Car.create(car);
@@ -43,7 +42,43 @@ export default {
             throw err;
         }
     },
+    updateCarStatusByProducedDateAndMileage: async (producedDate, mileage, status) => {
+        const cars = await models.Car.findAll({
+            where: {
+                productionDate: {
+                    [Op.lt]: producedDate,
+                },
+                mileage: {
+                    [Op.gt]: mileage,
+                }
+            }
+        });
 
+        cars.map(async car => {
+            car.status = status;
+            await car.save();
+        });
+
+        return cars;
+    },
+    updateCarGeoByBookingAndStatus: async (IN_USE, FREE,  geo) => {
+        const cars = await models.Car.findAll({
+            where: {
+                [Op.and]: [{ status: IN_USE }, { status: FREE }],
+                mileage: {
+                    [Op.gt]: mileage,
+                }
+            }
+        });
+
+        cars.map(async car => {
+            car.geoLatitude = geo.latitude;
+            car.geoLongitude = geo.longitude;
+            await car.save();
+        });
+
+        return cars;
+    },
     deleteCarByVin: vin => {
         models.Car.destroy({
             where: {

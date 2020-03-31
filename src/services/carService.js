@@ -28,7 +28,18 @@ export default {
             return {vin, geoLatitude, geoLongitude, firstName, lastName, licenseNumber};
         });
     },
-
     addNewCar: carData => car.createNewCar(carData),
+    updateCarStatusByProducedDateAndMileage: () => {
+        const { IN_SERVICE } = CAR_STATUS;
+        const mileage = 100000;
+        const productionDate = new Date('01/01/2017');
+
+        return car.updateCarStatusByProducedDateAndMileage(productionDate, mileage, IN_SERVICE);
+    },
+    updateCarGeoByBookingAndStatus: () => {
+        const [ IN_USE, FREE ] = CAR_STATUS;
+
+        return car.updateCarGeoByBookingAndStatus([ IN_USE, FREE ]);
+    },
     deleteCarByVin: vin => car.deleteCarByVin(vin),
 }

@@ -28,7 +28,7 @@ export default class CarController {
 
     static async updateCar(req, res, next) {
         try {
-            res.send(await CarService.addNewCar());
+            res.send(await CarService.updateCarStatusByProducedDateAndMileage());
         } catch (error) {
             next(error);
         }
