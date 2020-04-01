@@ -1,18 +1,21 @@
 import models from '../models/';
-import {Op} from 'sequelize'
+import { Op } from 'sequelize';
 
 export default {
-    getCarsByStatusAndFuel: (status, fuelLevel) => {
+    getAllCars: () => {
+        return models.Car.findAll();
+    },
+    getCarsByStatusAndFuelLevel: (status, fuelLevel) => {
         return models.Car.findAll({
             where: {
-                status: status,
+                status,
                 fuelLevel: {
-                    [Op.lt]: fuelLevel,
+                    [Op.lt]: fuelLevel
                 }
             }
-        });
+        })
     },
-    getCarsByStatusAndNotAuthorize: status => {
+    getCarsByStatusAndNotAuthorized: (status) => {
         return models.Car.findAll({
             where: {
                 status,
@@ -34,56 +37,49 @@ export default {
             ],
         });
     },
-    createNewCar: car => {
-        try {
-            return models.Car.create(car);
-        }
-        catch(err) {
-            throw err;
-        }
-    },
-    updateCarStatusByProducedDateAndMileage: async (producedDate, mileage, status) => {
-        const cars = await models.Car.findAll({
+    getCarsByProducedDateAndMileage: (productionDate, mileage) => {
+        return models.Car.findAll({
             where: {
                 productionDate: {
-                    [Op.lt]: producedDate,
+                    [Op.lt]: productionDate,
                 },
                 mileage: {
                     [Op.gt]: mileage,
                 }
             }
         });
-
-        cars.map(async car => {
-            car.status = status;
-            await car.save();
-        });
-
-        return cars;
     },
-    updateCarGeoByBookingAndStatus: async (IN_USE, FREE,  geo) => {
-        const cars = await models.Car.findAll({
+    getCarsByIdsAndStatus: (ids, status) => {
+        return models.Car.findAll({
             where: {
-                [Op.and]: [{ status: IN_USE }, { status: FREE }],
-                mileage: {
-                    [Op.gt]: mileage,
+                id: {
+                    [Op.in]: ids,
+                },
+                status: {
+                    [Op.in]: status,
                 }
             }
         });
-
-        cars.map(async car => {
-            car.geoLatitude = geo.latitude;
-            car.geoLongitude = geo.longitude;
-            await car.save();
-        });
-
-        return cars;
     },
-    deleteCarByVin: vin => {
+
+    createCar: data => {
+        try {
+            return models.Car.create(data);
+        }
+        catch(err) {
+            throw err;
+        }
+    },
+    deleteCarBy: params => {
         models.Car.destroy({
             where: {
-                vin
+                ...params
             }
         })
+    },
+    updateCars: cars => {
+        cars.forEach(car => {
+            car.save();
+        });
     }
 };

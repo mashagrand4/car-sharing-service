@@ -1,9 +1,9 @@
 import CarService from "../services/carService";
 
 export default class CarController {
-    static async getUsedCarsWithLessFuelLevel(req, res, next) {
+    static async getCarsByStatusAndFuelLevel(req, res, next) {
         try {
-            res.send(await CarService.getUsedCarsWithLessFuelLevel());
+            res.send(await CarService.getCarsByStatusAndFuelLevel(req.body));
         } catch (error) {
             next(error);
         }
@@ -26,9 +26,17 @@ export default class CarController {
         }
     };
 
-    static async updateCar(req, res, next) {
+    static async updateCarStatusByProducedDateAndMileage(req, res, next) {
         try {
-            res.send(await CarService.updateCarStatusByProducedDateAndMileage());
+            res.send(await CarService.updateCarStatusByProducedDateAndMileage(req.body));
+        } catch (error) {
+            next(error);
+        }
+    };
+
+    static async updateCarGeoByStatusAndBookingTimes(req, res, next) {
+        try {
+            res.send(await CarService.updateCarGeoByStatusAndBookingTimes(req.body));
         } catch (error) {
             next(error);
         }

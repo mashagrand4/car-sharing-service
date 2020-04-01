@@ -1,45 +1,59 @@
 import car from '../repositories/car';
-import {CAR_STATUS} from '../constants'
+import bookingHistory from '../repositories/bookingHistory';
+import models from "../models";
 
 export default {
-    getUsedCarsWithLessFuelLevel: async () => {
-        const { IN_USE } = CAR_STATUS;
-        const fuelLevel = '25';
-
-        const carsByStatusAndFuel = await car.getCarsByStatusAndFuel(IN_USE, fuelLevel);
-
-        return carsByStatusAndFuel.map((car) => {
-            return car;
-        });
+    getCarsByStatusAndFuelLevel: async ({status, fuelLevel}) => {
+        return await car.getCarsByStatusAndFuelLevel(status, fuelLevel);
     },
-    getReservedCarsAndNotAuthorized: async () => {
-        const { RESERVED } = CAR_STATUS;
 
-        const carsByStatusAndAuthorize = await car.getCarsByStatusAndNotAuthorize(RESERVED);
-
-        return carsByStatusAndAuthorize.map((car) => {
+    getCarsByStatusAndNotAuthorized: async status => {
+        const cars = await car.getCarsByStatusAndNotAuthorized(status);
+        return cars.map((car) => {
             const {
                 vin,
                 geoLatitude,
                 geoLongitude,
                 run: {driver: {firstName, lastName, licenseNumber}},
             } = car;
-
             return {vin, geoLatitude, geoLongitude, firstName, lastName, licenseNumber};
         });
     },
-    addNewCar: carData => car.createNewCar(carData),
-    updateCarStatusByProducedDateAndMileage: () => {
-        const { IN_SERVICE } = CAR_STATUS;
-        const mileage = 100000;
-        const productionDate = new Date('01/01/2017');
 
-        return car.updateCarStatusByProducedDateAndMileage(productionDate, mileage, IN_SERVICE);
-    },
-    updateCarGeoByBookingAndStatus: () => {
-        const [ IN_USE, FREE ] = CAR_STATUS;
+    addNewCar: data => car.createCar(data),
 
-        return car.updateCarGeoByBookingAndStatus([ IN_USE, FREE ]);
+    updateCarStatusByProducedDateAndMileage: async ({productionDate, mileage, status}) => {
+        const filteredCars = await car.getCarsByProducedDateAndMileage(productionDate, mileage);
+
+        filteredCars.map(filteredCar => {
+            filteredCar.status = status;
+        });
+
+        car.updateCars(filteredCars);
+
+        return filteredCars;
     },
+
+    updateCarGeoByStatusAndBookingTimes: async ({status, times, geo}) => {
+        let carIds = await bookingHistory.getCarsGroupedByBookingTimes(status);
+        carIds = carIds.filter(({dataValues}) => {
+            return dataValues.cnt >= times;
+        }).map((car) => car.carId);
+
+        console.log(carIds);
+
+        const carsByBookingAndStatus = await car.getCarsByIdsAndStatus(carIds, status);
+
+        carsByBookingAndStatus.map(async car => {
+            car.geoLatitude = geo.latitude;
+            car.geoLongitude = geo.longitude;
+        });
+
+        car.updateCars(carsByBookingAndStatus);
+
+        return carsByBookingAndStatus;
+
+    },
+
     deleteCarByVin: vin => car.deleteCarByVin(vin),
 }
