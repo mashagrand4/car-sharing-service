@@ -9,18 +9,17 @@ export default class CarController {
         }
     };
 
-    static async getReservedCarsAndNotAuthorized(req, res, next) {
+    static async getCarsByStatusAndNotAuthorized(req, res, next) {
         try {
-            res.send(await CarService.getReservedCarsAndNotAuthorized());
+            res.send(await CarService.getCarsByStatusAndNotAuthorized(req.body));
         } catch (error) {
             next(error);
         }
     };
 
     static async addNewCar(req, res, next) {
-        const car = req.body;
         try {
-            res.send(await CarService.addNewCar(car));
+            res.send(await CarService.addNewCar(req.body));
         } catch (error) {
             next(error);
         }

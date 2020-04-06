@@ -1,13 +1,12 @@
 import car from '../repositories/car';
 import bookingHistory from '../repositories/bookingHistory';
-import models from "../models";
 
 export default {
     getCarsByStatusAndFuelLevel: async ({status, fuelLevel}) => {
         return await car.getCarsByStatusAndFuelLevel(status, fuelLevel);
     },
 
-    getCarsByStatusAndNotAuthorized: async status => {
+    getCarsByStatusAndNotAuthorized: async ({status}) => {
         const cars = await car.getCarsByStatusAndNotAuthorized(status);
         return cars.map((car) => {
             const {
@@ -39,8 +38,6 @@ export default {
         carIds = carIds.filter(({dataValues}) => {
             return dataValues.cnt >= times;
         }).map((car) => car.carId);
-
-        console.log(carIds);
 
         const carsByBookingAndStatus = await car.getCarsByIdsAndStatus(carIds, status);
 
