@@ -14,6 +14,7 @@
     "express": "^4.17.1",
     "link-module-alias": "^1.2.0",
     "module-alias": "^2.2.2",
+    "mongoose": "^5.9.7",
     "pg": "^7.18.2",
     "sequelize": "^5.21.5"
   },

@@ -1,10 +1,20 @@
-import Sequelize from 'sequelize';
-import {database, username, password} from "./config"
+import mongoose from 'mongoose';
+import userData from './config';
 
-const sequelize = new Sequelize(database, username, password, {
-    host: 'localhost',
-    dialect: 'postgres',
-    define: { raw: true }
+mongoose.connect(
+    `mongodb://${userData.username}:${userData.password}@${userData.host}:${userData.port}/${userData.database}`,
+    {
+        useNewUrlParser: true,
+        useUnifiedTopology: true,
+    }
+);
+
+const db = mongoose.connection;
+
+db.on('error', console.error.bind(console, 'connection error'));
+db.once('open', () => {
+    console.log('Connection succeeded.');
 });
 
-export default sequelize;
+
+export default db;

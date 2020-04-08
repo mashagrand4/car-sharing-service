@@ -1,30 +1,14 @@
-export default (sequelize, DataTypes) => {
-    let Driver = sequelize.define('driver', {
-            licenseNumber: {
-                type: DataTypes.STRING,
-                field: 'license_number',
-            },
-            firstName:{
-                type: DataTypes.STRING,
-                field: 'first_name',
-            },
-            lastName: {
-                type: DataTypes.STRING,
-                field: 'last_name'
-            },
-            creditCardId: {
-                type: DataTypes.INTEGER,
-                allowNull: true,
-                field: 'credit_card_id'
-            },
-        },
-        {
-            freezeTableName: true,
-            timestamps: false,
-        }
-    );
+import mongoose from 'mongoose';
 
-    Driver.sync();
+const Driver = mongoose.Schema;
 
-    return Driver;
-};
+const DriverSchema = new Driver({
+    licenseNumber: String,
+    firstName: String,
+    lastName: String,
+    creditCardId: {
+        type: Driver.Types.ObjectId,
+        ref: 'CreditCard' },
+});
+
+export default mongoose.model('Driver', DriverSchema);

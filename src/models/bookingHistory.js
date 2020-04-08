@@ -1,30 +1,16 @@
-export default (sequelize, DataTypes) => {
-    let BookingHistory = sequelize.define('booking_history', {
-        finishFuelLevel: {
-            type: DataTypes.STRING,
-            field: 'finish_fuel_level',
-        },
-        finishMileage: {
-            type: DataTypes.INTEGER,
-            field: 'finish_mileage',
-        },
-        carId: {
-            type: DataTypes.INTEGER,
-            allowNull: true,
-            field: 'car_id'
-        },
-        runId: {
-            type: DataTypes.INTEGER,
-            allowNull: true,
-            field: 'run_id'
-        },
-    },
-    {
-        freezeTableName: true,
-        timestamps: false,
-    });
+import mongoose from 'mongoose';
 
-    BookingHistory.sync();
+const BookingHistory = mongoose.Schema;
 
-    return BookingHistory;
-};
+const BookingHistorySchema = new BookingHistory({
+    finishFuelLevel: Number,
+    finishMileage: Number,
+    carId: {
+        type: BookingHistory.Types.ObjectId,
+        ref: 'Car' },
+    runId: {
+        type: BookingHistory.Types.ObjectId,
+        ref: 'Run' },
+});
+
+export default mongoose.model('BookingHistory', BookingHistorySchema);

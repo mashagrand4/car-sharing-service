@@ -1,80 +1,25 @@
-import {CAR_STATUS} from '../constants';
+import mongoose from 'mongoose';
+import {CAR_STATUS} from "../constants";
 
-export default (sequelize, DataTypes) => {
-    const Car =  sequelize.define('car', {
-        vin: {
-            type: DataTypes.STRING,
-            validate: {
-                notEmpty: true,
-            }
-        },
-        registrationNumber: {
-            type: DataTypes.STRING,
-            field: 'registration_number',
-            validate: {
-                notEmpty: true,
-            },
-        },
-        brand: {
-            type: DataTypes.STRING,
-            validate: {
-                notEmpty: true,
-            },
-        },
-        model: DataTypes.STRING,
-        productionDate: {
-            type: DataTypes.DATE,
-            field: 'production_date',
-            validate: {
-                notEmpty: true,
-            }
-        },
-        status: {
-            type: DataTypes.ENUM,
-            values: Object.values(CAR_STATUS),
-            validate: {
-                notEmpty: true,
-            },
-        },
-        fuelLevel: {
-            type: DataTypes.STRING,
-            field: 'fuel_level',
-            validate: {
-                notEmpty: true,
-            },
-        },
-        mileage: {
-            type: DataTypes.INTEGER,
-            validate: {
-                notEmpty: true,
-            },
-        },
-        currentRunId: {
-            type: DataTypes.INTEGER,
-            allowNull: true,
-            field: 'current_run_id',
-        },
-        geoLatitude: {
-            type: DataTypes.STRING,
-            field: 'geo_latitude',
-            validate: {
-                notEmpty: true,
-            },
-        },
-        geoLongitude: {
-            type: DataTypes.STRING,
-            field: 'geo_longitude',
-            validate: {
-                notEmpty: true,
-            },
-        },
+const Car = mongoose.Schema;
+
+const CarSchema = new Car({
+    vin: String,
+    registrationNumber: String,
+    brand: String,
+    model: String,
+    productionDate: Date,
+    status: {
+        type: String,
+        enum: Object.values(CAR_STATUS),
     },
-    {
-        freezeTableName: true,
-        timestamps: false,
-    });
+    fuelLevel: String,
+    mileage: Number,
+    currentRunId: {
+        type: Car.Types.ObjectId,
+        ref: 'Run' },
+    geoLatitude: String,
+    geoLongitude: String,
+});
 
-    Car.sync();
-
-    return Car;
-};
+export default mongoose.model('Car', CarSchema, 'car');
