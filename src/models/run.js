@@ -3,12 +3,23 @@ import mongoose from 'mongoose';
 const Run = mongoose.Schema;
 
 const RunSchema = new Run({
-    startDate: String,
-    startFuelLevel: Number,
-    startMileage: Number,
-    driverId: {
+    start_date: {
+        type: String,
+        alias: 'startDate'
+    },
+    start_fuel_level: {
+        type: Number,
+        alias: 'startFuelLevel'
+    },
+    start_mileage: {
+        type: Number,
+        alias: 'startMileage',
+    },
+    driver_id: {
         type: Run.Types.ObjectId,
-        ref: 'Driver' },
+        ref: 'driver',
+        alias: 'driverId'
+    },
 });
 
-export default mongoose.model('Run', RunSchema);
+export default mongoose.model('Run', RunSchema, 'run');

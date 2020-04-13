@@ -5,9 +5,9 @@ const router = express.Router();
 
 router.get('/getCarsByStatusAndFuelLevel', Car.getCarsByStatusAndFuelLevel);
 router.get('/getCarsByStatusAndNotAuthorized', Car.getCarsByStatusAndNotAuthorized);
-router.post('/addNewCar', Car.addNewCar);
-router.put('/updateCarStatusByProducedDateAndMileage', Car.updateCarStatusByProducedDateAndMileage);
-router.put('/updateCarGeoByStatusAndBookingTimes', Car.updateCarGeoByStatusAndBookingTimes);
-router.delete('/deleteCarByVin', Car.deleteCarByVin);
+router.post('/addCarIntoPark', Car.addCarIntoPark);
+router.put('/moveCarsInToService', Car.moveCarsInToService);
+router.put('/moveCarsInToPark', Car.moveCarsInToPark);
+router.delete('/deleteCarFromPark', Car.deleteCarFromPark);
 
 export default router;

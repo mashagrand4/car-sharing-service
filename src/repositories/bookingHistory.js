@@ -1,8 +1,27 @@
+import BookingHistory from '../models/bookingHistory';
+
 export default {
-    // getCarsGroupedByBookingTimes: () => {
-    //     return models.BookingHistory.findAll({
-    //         attributes: ['car_id', [fn('count', col('car_id')), 'cnt']],
-    //         group: ['car_id'],
-    //     });
-    // },
+    getCarsGroupedByBookingTimes: async () => {
+        const carsDuplicates = await BookingHistory.aggregate(
+            [
+                {
+                    $group:  {
+                        _id: {
+                            car_id: "$car_id"
+                        },
+                        count: {
+                            $sum: 1
+                        }
+                    }
+                }
+            ])
+        ;
+
+        return carsDuplicates.map((carDuplicate) => {
+                return {
+                    carId: carDuplicate._id.car_id,
+                    timesCount: carDuplicate.count
+                }
+        });
+    },
 };

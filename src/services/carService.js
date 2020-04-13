@@ -3,25 +3,24 @@ import bookingHistory from '../repositories/bookingHistory';
 
 export default {
     getCarsByStatusAndFuelLevel: async ({status, fuelLevel}) => {
-        return await car.getCarsByStatusAndFuelLevel(status, fuelLevel);
+        return car.getCarsByStatusAndFuelLevel(status, fuelLevel);
     },
 
     getCarsByStatusAndNotAuthorized: async ({status}) => {
         const cars = await car.getCarsByStatusAndNotAuthorized(status);
+
         return cars.map((car) => {
-            const {
-                vin,
-                geoLatitude,
-                geoLongitude,
-                run: {driver: {firstName, lastName, licenseNumber}},
-            } = car;
-            return {vin, geoLatitude, geoLongitude, firstName, lastName, licenseNumber};
+            return {
+                vin: car.vin,
+                geoLatitude: car.geoLatitude,
+                geoLongitude: car.geoLongitude,
+            };
         });
     },
 
-    addNewCar: data => car.createCar(data),
+    addCarIntoPark: data => car.createCar(data),
 
-    updateCarStatusByProducedDateAndMileage: async ({productionDate, mileage, status}) => {
+    moveCarsInToService: async ({productionDate, mileage, status}) => {
         const filteredCars = await car.getCarsByProducedDateAndMileage(productionDate, mileage);
 
         filteredCars.map(filteredCar => {
@@ -33,13 +32,14 @@ export default {
         return filteredCars;
     },
 
-    updateCarGeoByStatusAndBookingTimes: async ({status, times, geo}) => {
-        let carIds = await bookingHistory.getCarsGroupedByBookingTimes(status);
-        carIds = carIds.filter(({dataValues}) => {
-            return dataValues.cnt >= times;
+    moveCarsInToPark: async ({status, times, geo}) => {
+        let carData = await bookingHistory.getCarsGroupedByBookingTimes(status);
+
+        carData = carData.filter((data) => {
+            return data.timesCount >= times;
         }).map((car) => car.carId);
 
-        const carsByBookingAndStatus = await car.getCarsByIdsAndStatus(carIds, status);
+        const carsByBookingAndStatus = await car.getCarsByIdsAndStatus(carData, status);
 
         carsByBookingAndStatus.map(async car => {
             car.geoLatitude = geo.latitude;
@@ -52,5 +52,5 @@ export default {
 
     },
 
-    deleteCarByVin: vin => car.deleteCarByVin(vin),
+    deleteCarFromPark: params => car.deleteCarBy(params),
 }

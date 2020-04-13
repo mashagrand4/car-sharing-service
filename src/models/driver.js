@@ -3,12 +3,23 @@ import mongoose from 'mongoose';
 const Driver = mongoose.Schema;
 
 const DriverSchema = new Driver({
-    licenseNumber: String,
-    firstName: String,
-    lastName: String,
-    creditCardId: {
+    license_number: {
+        type: String,
+        alias: 'licenseNumber'
+    },
+    first_name: {
+        type: String,
+        alias: 'firstName'
+    },
+    last_name: {
+        type: String,
+        alias: 'lastName'
+    },
+    credit_card_id: {
         type: Driver.Types.ObjectId,
-        ref: 'CreditCard' },
+        ref: 'creditCard',
+        alias: 'creditCardId'
+    },
 });
 
-export default mongoose.model('Driver', DriverSchema);
+export default mongoose.model('Driver', DriverSchema, 'driver');

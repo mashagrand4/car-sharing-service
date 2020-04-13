@@ -17,33 +17,33 @@ export default class CarController {
         }
     };
 
-    static async addNewCar(req, res, next) {
+    static async addCarIntoPark(req, res, next) {
         try {
-            res.send(await CarService.addNewCar(req.body));
+            res.send(await CarService.addCarIntoPark(req.body));
         } catch (error) {
             next(error);
         }
     };
 
-    static async updateCarStatusByProducedDateAndMileage(req, res, next) {
+    static async moveCarsInToService(req, res, next) {
         try {
-            res.send(await CarService.updateCarStatusByProducedDateAndMileage(req.body));
+            res.send(await CarService.moveCarsInToService(req.body));
         } catch (error) {
             next(error);
         }
     };
 
-    static async updateCarGeoByStatusAndBookingTimes(req, res, next) {
+    static async moveCarsInToPark(req, res, next) {
         try {
-            res.send(await CarService.updateCarGeoByStatusAndBookingTimes(req.body));
+            res.send(await CarService.moveCarsInToPark(req.body));
         } catch (error) {
             next(error);
         }
     };
 
-    static async deleteCarByVin(req, res, next) {
+    static async deleteCarFromPark(req, res, next) {
         try {
-            res.send(await CarService.deleteCarByVin(req.body.vin));
+            res.send(await CarService.deleteCarFromPark(req.body));
         } catch (error) {
             next(error);
         }

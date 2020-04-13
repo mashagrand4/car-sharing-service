@@ -1,91 +1,66 @@
-import db from "../config/connection";
-import Car from "../models/car";
-
-Car
-    .find({
-        brand: 'ford'
-    }, (err, result) => {
-        console.log(result)
-    });
+import Car from '../models/car';
+import Run from '../models/run';
+import Driver from '../models/driver';
 
 export default {
-    // getAllCars: () => {
-    //     return models.Car.findAll();
-    // },
-    // getCarsByStatusAndFuelLevel: (status, fuelLevel) => {
-    //     return models.Car.findAll({
-    //         where: {
-    //             status,
-    //             fuelLevel: {
-    //                 [Op.lt]: fuelLevel
-    //             }
-    //         }
-    //     })
-    // },
-    // getCarsByStatusAndNotAuthorized: (status) => {
-    //     return models.Car.findAll({
-    //         where: {
-    //             status,
-    //         },
-    //         attributes: ['vin', 'geoLatitude', 'geoLongitude'],
-    //         include: [
-    //             {
-    //                 model: models.Run,
-    //                 include: [
-    //                     {
-    //                         model: models.Driver,
-    //                         where: {
-    //                             creditCardId: null,
-    //                         },
-    //                         attributes: ['firstName', 'lastName', 'licenseNumber'],
-    //                     }
-    //                 ]
-    //             }
-    //         ],
-    //     });
-    // },
-    // getCarsByProducedDateAndMileage: (productionDate, mileage) => {
-    //     return models.Car.findAll({
-    //         where: {
-    //             productionDate: {
-    //                 [Op.lt]: productionDate,
-    //             },
-    //             mileage: {
-    //                 [Op.gt]: mileage,
-    //             }
-    //         }
-    //     });
-    // },
-    // getCarsByIdsAndStatus: (ids, status) => {
-    //     return models.Car.findAll({
-    //         where: {
-    //             id: {
-    //                 [Op.in]: ids,
-    //             },
-    //             status: {
-    //                 [Op.in]: status,
-    //             }
-    //         }
-    //     });
-    // },
-    // createCar: data => {
-    //     try {
-    //         return models.Car.create(data);
-    //     }
-    //     catch(err) {
-    //         throw err;
-    //     }
-    // },
-    // deleteCarBy: params => {
-    //     models.Car.destroy({
-    //         where: {
-    //             ...params
-    //         }
-    //     })
-    // },
-    // updateCars: cars => {
-    //     cars.forEach(car => {
-    //         car.save();
-    //     });
-    // }
+    getCarsByStatusAndFuelLevel: ( status, fuelLevel ) => {
+        return Car.find({
+            status,
+            fuel_level: {
+                $lt: fuelLevel
+            }
+        }
+    )},
+    getCarsByStatusAndNotAuthorized: status => {
+        return Car.find({ status })
+            .populate({
+                path: 'current_run_id' ,
+                model: Run,
+                populate: {
+                    path: 'current_run_id.driver_id',
+                    model: Driver,
+                }
+            })
+            .where('current_run_id.driver_id.credit_card_id').equals(null);
+    },
+    getCarsByProducedDateAndMileage: (productionDate, mileage) => {
+        return Car.find({
+                production_date: {
+                    $lt: productionDate
+                },
+                mileage: {
+                    $gt: mileage
+                }
+            }
+        );
+    },
+    getCarsByIdsAndStatus: (ids, status) => {
+        return Car.find(Car.translateAliases({
+            _id: {
+                $in: ids
+            },
+            status: {
+                $in: status
+            }
+        }));
+    },
+    createCar: data => {
+        try {
+            const car = new Car(data);
+            car.save();
+        }
+        catch(err) {
+            throw err;
+        }
+    },
+    deleteCarBy: params => {
+        return Car.findOneAndDelete({
+            ...params
+        })
+    },
+    updateCars: cars => {
+        cars.forEach(car => {
+            car.save();
+        });
+    }
 };

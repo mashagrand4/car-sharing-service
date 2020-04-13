@@ -1,6 +1,7 @@
 import('module-alias/register');
 import express from 'express';
 import bodyParser from 'body-parser';
+import db from "./src/config/connection";
 import router from './src/routes';
 
 const port = process.env.PORT || 3000;
