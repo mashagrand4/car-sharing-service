@@ -10,18 +10,12 @@ export default (sequelize, DataTypes) => {
         },
         carId: {
             type: DataTypes.INTEGER,
-            allowNull: true,
             field: 'car_id'
         },
         runId: {
             type: DataTypes.INTEGER,
-            allowNull: true,
             field: 'run_id'
         },
-    },
-    {
-        freezeTableName: true,
-        timestamps: false,
     });
 
     BookingHistory.sync();

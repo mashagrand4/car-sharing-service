@@ -19,9 +19,9 @@ export default {
         });
     },
 
-    addNewCar: data => car.createCar(data),
+    addCarToPark: data => car.createCar(data),
 
-    updateCarStatusByProducedDateAndMileage: async ({productionDate, mileage, status}) => {
+    moveCarsToService: async ({productionDate, mileage, status}) => {
         const filteredCars = await car.getCarsByProducedDateAndMileage(productionDate, mileage);
 
         filteredCars.map(filteredCar => {
@@ -33,13 +33,14 @@ export default {
         return filteredCars;
     },
 
-    updateCarGeoByStatusAndBookingTimes: async ({status, times, geo}) => {
-        let carIds = await bookingHistory.getCarsGroupedByBookingTimes(status);
-        carIds = carIds.filter(({dataValues}) => {
-            return dataValues.cnt >= times;
+    moveCarsToPark: async ({status, times, geo}) => {
+        let carData = await bookingHistory.getCarsGroupedByBookingTimes();
+
+        carData = carData.filter((data) => {
+            return data.timesCount >= times;
         }).map((car) => car.carId);
 
-        const carsByBookingAndStatus = await car.getCarsByIdsAndStatus(carIds, status);
+        const carsByBookingAndStatus = await car.getCarsByIdsAndStatus(carData, status);
 
         carsByBookingAndStatus.map(async car => {
             car.geoLatitude = geo.latitude;
@@ -49,8 +50,7 @@ export default {
         car.updateCars(carsByBookingAndStatus);
 
         return carsByBookingAndStatus;
-
     },
 
-    deleteCarByVin: vin => car.deleteCarByVin(vin),
+    deleteCarFromPark: params => car.deleteCarBy(params),
 }

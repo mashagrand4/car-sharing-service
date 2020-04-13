@@ -17,17 +17,11 @@ export default (sequelize, DataTypes) => {
         },
         brand: {
             type: DataTypes.STRING,
-            validate: {
-                notEmpty: true,
-            },
         },
         model: DataTypes.STRING,
         productionDate: {
             type: DataTypes.DATE,
             field: 'production_date',
-            validate: {
-                notEmpty: true,
-            }
         },
         status: {
             type: DataTypes.ENUM,
@@ -37,7 +31,7 @@ export default (sequelize, DataTypes) => {
             },
         },
         fuelLevel: {
-            type: DataTypes.STRING,
+            type: DataTypes.INTEGER,
             field: 'fuel_level',
             validate: {
                 notEmpty: true,
@@ -55,23 +49,19 @@ export default (sequelize, DataTypes) => {
             field: 'current_run_id',
         },
         geoLatitude: {
-            type: DataTypes.STRING,
+            type: DataTypes.INTEGER,
             field: 'geo_latitude',
             validate: {
                 notEmpty: true,
             },
         },
         geoLongitude: {
-            type: DataTypes.STRING,
+            type: DataTypes.INTEGER,
             field: 'geo_longitude',
             validate: {
                 notEmpty: true,
             },
         },
-    },
-    {
-        freezeTableName: true,
-        timestamps: false,
     });
 
     Car.sync();

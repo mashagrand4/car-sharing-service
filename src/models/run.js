@@ -1,11 +1,11 @@
 export default (sequelize, DataTypes) => {
     let Run = sequelize.define('run', {
         startDate: {
-            type: DataTypes.STRING,
+            type: DataTypes.DATE,
             field: 'start_date'
         },
         startFuelLevel: {
-            type: DataTypes.STRING,
+            type: DataTypes.INTEGER,
             field: 'start_fuel_level',
         },
         startMileage: {
@@ -17,10 +17,6 @@ export default (sequelize, DataTypes) => {
             allowNull: true,
             field: 'driver_id'
         },
-},
-    {
-        freezeTableName: true,
-        timestamps: false,
     });
 
     Run.sync();
