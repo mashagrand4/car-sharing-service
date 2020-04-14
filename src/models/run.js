@@ -1,12 +1,25 @@
-export default (sequelize, DataTypes) => {
-    let Run = sequelize.define('run', {
-        start_date: DataTypes.STRING,
-        driver_id: DataTypes.STRING,
-        start_fuel_level: DataTypes.STRING,
-        start_mileage: DataTypes.INTEGER,
-    });
+import mongoose from 'mongoose';
 
-    Run.sync({ force: true });
+const Run = mongoose.Schema;
 
-    return Run;
-};
+const RunSchema = new Run({
+    start_date: {
+        type: String,
+        alias: 'startDate'
+    },
+    start_fuel_level: {
+        type: Number,
+        alias: 'startFuelLevel'
+    },
+    start_mileage: {
+        type: Number,
+        alias: 'startMileage',
+    },
+    driver_id: {
+        type: Run.Types.ObjectId,
+        ref: 'driver',
+        alias: 'driverId'
+    },
+});
+
+export default mongoose.model('Run', RunSchema, 'run');

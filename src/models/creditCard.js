@@ -1,11 +1,20 @@
-export default (sequelize, DataTypes) => {
-    let CreditCard = sequelize.define('credit_card', {
-        card_number: DataTypes.STRING,
-        card_holder: DataTypes.STRING,
-        card_valid_date: DataTypes.DATE,
-    });
+import mongoose from 'mongoose';
 
-    CreditCard.sync({ force: true });
+const CreditCard = mongoose.Schema;
 
-    return CreditCard;
-};
+const CreditCardSchema = new CreditCard({
+    card_number: {
+        type: Number,
+        alias: 'cardNumber',
+    },
+    card_holder: {
+        type: String,
+        alias: 'cardHolder'
+    },
+    card_valid_date: {
+        type: Date,
+        alias: 'cardValidDate'
+    },
+});
+
+export default mongoose.model('CreditCard', CreditCardSchema, 'credit_card');
