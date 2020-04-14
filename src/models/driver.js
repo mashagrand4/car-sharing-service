@@ -1,4 +1,5 @@
 import mongoose from 'mongoose';
+import CreditCard from './creditCard';
 
 const Driver = mongoose.Schema;
 

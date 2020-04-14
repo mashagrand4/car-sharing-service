@@ -1,5 +1,6 @@
 import mongoose from 'mongoose';
 import {CAR_STATUS} from "../constants";
+import Run from './run';
 
 const Car = mongoose.Schema;
 

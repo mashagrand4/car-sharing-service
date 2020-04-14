@@ -1,4 +1,5 @@
 import mongoose from 'mongoose';
+import Driver from './driver'
 
 const Run = mongoose.Schema;
 

@@ -11,14 +11,15 @@ export default {
     getCarsByStatusAndNotAuthorized: async ({status}) => {
         const cars = await car.getCarsByStatusAndNotAuthorized(status);
 
-        console.log(cars);
-
         return cars.map((car) => {
             console.log(car.current_run_id.driver_id);
             return {
                 vin: car.vin,
                 geoLatitude: car.geoLatitude,
                 geoLongitude: car.geoLongitude,
+                firstName: car.current_run_id.driver_id.first_name,
+                lastName: car.current_run_id.driver_id.last_name,
+                licenseNumber: car.current_run_id.driver_id.license_number,
             };
         });
     },
