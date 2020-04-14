@@ -3,13 +3,18 @@ import bookingHistory from '../repositories/bookingHistory';
 
 export default {
     getCarsByStatusAndFuelLevel: async ({status, fuelLevel}) => {
-        return car.getCarsByStatusAndFuelLevel(status, fuelLevel);
+        return car.getCarsByStatusAndFuelLevel(status, {
+            $lt: fuelLevel
+        });
     },
 
     getCarsByStatusAndNotAuthorized: async ({status}) => {
         const cars = await car.getCarsByStatusAndNotAuthorized(status);
 
+        console.log(cars);
+
         return cars.map((car) => {
+            console.log(car.current_run_id.driver_id);
             return {
                 vin: car.vin,
                 geoLatitude: car.geoLatitude,
@@ -21,7 +26,14 @@ export default {
     addCarIntoPark: data => car.createCar(data),
 
     moveCarsInToService: async ({productionDate, mileage, status}) => {
-        const filteredCars = await car.getCarsByProducedDateAndMileage(productionDate, mileage);
+        const filteredCars = await car.getCarsByProducedDateAndMileage(
+            {
+                $lt: productionDate
+            }, {
+                $gt: mileage
+            });
+
+        console.log(filteredCars);
 
         filteredCars.map(filteredCar => {
             filteredCar.status = status;
@@ -39,7 +51,11 @@ export default {
             return data.timesCount >= times;
         }).map((car) => car.carId);
 
-        const carsByBookingAndStatus = await car.getCarsByIdsAndStatus(carData, status);
+        const carsByBookingAndStatus = await car.getCarsByIdsAndStatus({
+            $in: carData
+        }, {
+            $in: status
+        },);
 
         carsByBookingAndStatus.map(async car => {
             car.geoLatitude = geo.latitude;
@@ -49,7 +65,6 @@ export default {
         car.updateCars(carsByBookingAndStatus);
 
         return carsByBookingAndStatus;
-
     },
 
     deleteCarFromPark: params => car.deleteCarBy(params),

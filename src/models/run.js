@@ -17,7 +17,7 @@ const RunSchema = new Run({
     },
     driver_id: {
         type: Run.Types.ObjectId,
-        ref: 'driver',
+        ref: 'Driver',
         alias: 'driverId'
     },
 });

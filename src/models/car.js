@@ -1,6 +1,5 @@
 import mongoose from 'mongoose';
 import {CAR_STATUS} from "../constants";
-const deepPopulate = require('mongoose-deep-populate')(mongoose);
 
 const Car = mongoose.Schema;
 
@@ -27,7 +26,7 @@ const CarSchema = new Car({
     mileage: Number,
     current_run_id: {
         type: Car.Types.ObjectId,
-        ref: 'run',
+        ref: 'Run',
         alias: 'currentRunId'
     },
     geo_latitude: {
@@ -39,8 +38,5 @@ const CarSchema = new Car({
         alias: 'geoLongitude',
     },
 });
-
-CarSchema.plugin(deepPopulate);
-
 
 export default mongoose.model('Car', CarSchema, 'car');

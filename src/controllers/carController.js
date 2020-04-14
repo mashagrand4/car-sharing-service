@@ -3,7 +3,7 @@ import CarService from "../services/carService";
 export default class CarController {
     static async getCarsByStatusAndFuelLevel(req, res, next) {
         try {
-            res.send(await CarService.getCarsByStatusAndFuelLevel(req.body));
+            res.send(await CarService.getCarsByStatusAndFuelLevel(req.query));
         } catch (error) {
             next(error);
         }
@@ -11,7 +11,7 @@ export default class CarController {
 
     static async getCarsByStatusAndNotAuthorized(req, res, next) {
         try {
-            res.send(await CarService.getCarsByStatusAndNotAuthorized(req.body));
+            res.send(await CarService.getCarsByStatusAndNotAuthorized(req.query));
         } catch (error) {
             next(error);
         }

@@ -17,7 +17,7 @@ const DriverSchema = new Driver({
     },
     credit_card_id: {
         type: Driver.Types.ObjectId,
-        ref: 'creditCard',
+        ref: 'CreditCard',
         alias: 'creditCardId'
     },
 });
