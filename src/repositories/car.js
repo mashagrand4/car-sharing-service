@@ -2,9 +2,6 @@ import models from '../models/';
 import { Op } from 'sequelize';
 
 export default {
-    getAllCars: () => {
-        return models.Car.findAll();
-    },
     getCarsByStatusAndFuelLevel: (status, fuelLevel) => {
         return models.Car.findAll({
             where: {
@@ -40,12 +37,14 @@ export default {
     getCarsByProducedDateAndMileage: (productionDate, mileage) => {
         return models.Car.findAll({
             where: {
-                productionDate: {
-                    [Op.lt]: productionDate,
-                },
-                mileage: {
-                    [Op.gt]: mileage,
-                }
+                $or: [
+                    {
+                        productionDate: { [Op.lt]: productionDate },
+                    },
+                    {
+                        mileage: { [Op.gt]: mileage }
+                    },
+                ]
             }
         });
     },

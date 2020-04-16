@@ -1,4 +1,5 @@
 import CarService from "../services/carService";
+import CAR_STATUS from '../constants'
 
 export default class CarController {
     static async getCarsByStatusAndFuelLevel(req, res, next) {
@@ -26,8 +27,9 @@ export default class CarController {
     };
 
     static async moveCarsToService(req, res, next) {
+        const { productionDate, mileage } = req.body;
         try {
-            res.send(await CarService.moveCarsToService(req.body));
+            res.send(await CarService.moveCarsToService({ productionDate, mileage, status: CAR_STATUS.IN_SERVICE}));
         } catch (error) {
             next(error);
         }

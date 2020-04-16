@@ -3,20 +3,25 @@ import bookingHistory from '../repositories/bookingHistory';
 
 export default {
     getCarsByStatusAndFuelLevel: async ({status, fuelLevel}) => {
-        return await car.getCarsByStatusAndFuelLevel(status, fuelLevel);
+        return await car.getCarsByStatusAndFuelLevel(status, Number(fuelLevel));
     },
 
     getCarsByStatusAndNotAuthorized: async ({status}) => {
         const cars = await car.getCarsByStatusAndNotAuthorized(status);
-        return cars.map((car) => {
-            const {
-                vin,
-                geoLatitude,
-                geoLongitude,
-                run: {driver: {firstName, lastName, licenseNumber}},
-            } = car;
-            return {vin, geoLatitude, geoLongitude, firstName, lastName, licenseNumber};
-        });
+
+        if (cars.length) {
+            return cars.map((car) => {
+                const {
+                    vin,
+                    geoLatitude,
+                    geoLongitude,
+                    run: {driver: {firstName, lastName, licenseNumber}},
+                } = car;
+                return {vin, geoLatitude, geoLongitude, firstName, lastName, licenseNumber};
+            });
+        }
+
+        return cars;
     },
 
     addCarToPark: data => car.createCar(data),

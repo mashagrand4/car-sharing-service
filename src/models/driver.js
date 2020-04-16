@@ -17,6 +17,9 @@ export default (sequelize, DataTypes) => {
             allowNull: true,
             field: 'credit_card_id'
         },
+    }, {
+        freezeTableName: true,
+        timestamps: false,
     });
 
     Driver.sync();

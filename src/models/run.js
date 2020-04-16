@@ -17,6 +17,9 @@ export default (sequelize, DataTypes) => {
             allowNull: true,
             field: 'driver_id'
         },
+    }, {
+        freezeTableName: true,
+        timestamps: false,
     });
 
     Run.sync();

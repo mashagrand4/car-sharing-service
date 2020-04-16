@@ -62,6 +62,9 @@ export default (sequelize, DataTypes) => {
                 notEmpty: true,
             },
         },
+    }, {
+        freezeTableName: true,
+        timestamps: false,
     });
 
     Car.sync();

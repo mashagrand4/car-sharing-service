@@ -5,8 +5,6 @@ const sequelize = new Sequelize(database, username, password, {
     host: 'localhost',
     dialect: 'postgres',
     define: { raw: true },
-    freezeTableName: true,
-    timestamps: false,
 });
 
 export default sequelize;

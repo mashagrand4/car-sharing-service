@@ -12,6 +12,9 @@ export default (sequelize, DataTypes) => {
             type: DataTypes.DATE,
             field: 'card_valid_date'
         },
+    }, {
+        freezeTableName: true,
+        timestamps: false,
     });
 
     CreditCard.sync();

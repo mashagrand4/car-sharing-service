@@ -16,6 +16,9 @@ export default (sequelize, DataTypes) => {
             type: DataTypes.INTEGER,
             field: 'run_id'
         },
+    }, {
+        freezeTableName: true,
+        timestamps: false,
     });
 
     BookingHistory.sync();
