@@ -1,11 +1,23 @@
 export default (sequelize, DataTypes) => {
     let CreditCard = sequelize.define('credit_card', {
-        card_number: DataTypes.STRING,
-        card_holder: DataTypes.STRING,
-        card_valid_date: DataTypes.DATE,
+        cardNumber: {
+            type: DataTypes.INTEGER,
+            field: 'card_number'
+        },
+        cardHolder: {
+            type: DataTypes.STRING,
+            field: 'card_holder'
+        },
+        cardValidDate: {
+            type: DataTypes.DATE,
+            field: 'card_valid_date'
+        },
+    }, {
+        freezeTableName: true,
+        timestamps: false,
     });
 
-    CreditCard.sync({ force: true });
+    CreditCard.sync();
 
     return CreditCard;
 };

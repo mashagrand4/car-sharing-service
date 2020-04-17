@@ -1,12 +1,28 @@
 export default (sequelize, DataTypes) => {
     let Run = sequelize.define('run', {
-        start_date: DataTypes.STRING,
-        driver_id: DataTypes.STRING,
-        start_fuel_level: DataTypes.STRING,
-        start_mileage: DataTypes.INTEGER,
+        startDate: {
+            type: DataTypes.DATE,
+            field: 'start_date'
+        },
+        startFuelLevel: {
+            type: DataTypes.INTEGER,
+            field: 'start_fuel_level',
+        },
+        startMileage: {
+            type: DataTypes.INTEGER,
+            field: 'start_mileage',
+        },
+        driverId: {
+            type: DataTypes.INTEGER,
+            allowNull: true,
+            field: 'driver_id'
+        },
+    }, {
+        freezeTableName: true,
+        timestamps: false,
     });
 
-    Run.sync({ force: true });
+    Run.sync();
 
     return Run;
 };
